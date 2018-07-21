@@ -1,16 +1,24 @@
+//document.addEventListener("DOMContentLoaded", function() {
+    console.log("DOMContentLoaded");
+    disableElements();
+//});
+
 window.onload = function(){
-    var ignoreTagNames = ["iFrame"];
-    console.log(`on load`);
+    console.log("window.onload");
+    disableElements();
+};
+
+function disableElements(){
     disableElementWhenOverThisZIndex(10);
     disableThisTagNames(["iFrame"]);
-};
+}
 
 function disableElementWhenOverThisZIndex(zidx){
     var tags = document.getElementsByTagName("*");
-  	for(i=0;i < tags.length;i++){
+    for(i=0;i < tags.length;i++){
         var elem = tags[i];
         zIndexOfElem = document.defaultView.getComputedStyle(elem,null).zIndex; //z-Indexの取得
-        
+
         if(zIndexOfElem > zidx){ //指定z-indexより大きかったら
             elem.style.display = "none"; //display: none; を設定
             console.log(`following element is disabled by "disableElementWhenOverThisZIndex". tagName:"${elem.tagName}", id:"${elem.id}", className:"${elem.className}"`);
