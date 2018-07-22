@@ -3,14 +3,15 @@
     disableElements();
 //});
 
-window.onload = function(){
-    console.log("window.onload");
-    disableElements();
-};
+// window.onload = function(){
+//     console.log("window.onload");
+//     disableElements();
+// };
 
 function disableElements(){
     disableElementWhenOverThisZIndex(10);
     disableThisTagNames(["iFrame"]);
+    disableElementsWhatIncludesThisHref(["traffic-url"]);
 }
 
 function disableElementWhenOverThisZIndex(zidx){
@@ -36,6 +37,27 @@ function disableThisTagNames(tagNames){
                 console.log(`following element is disabled by "disableThisTagNames. tagName:"${elem.tagName}", id:"${elem.id}", className:"${elem.className}"`);
                 break;
             }
+        }
+    }
+}
+
+function disableElementsWhatIncludesThisHref(refs){
+    var tags = document.getElementsByTagName("*");
+    for(i=0;i < tags.length;i++){
+        var elem = tags[i];
+        var ref = elem.getAttribute('href');
+        var fnd = false;
+        if(ref != null){
+            for(var j = 0 ; j < refs.length ; j++){
+                fnd = ref.indexOf(refs[j]) != -1; //文字列が存在するかどうか
+                if(fnd){ //存在する場合
+                    break;
+                }
+            }
+        }
+        if(fnd){
+            elem.style.display = "none";
+            console.log(`following element is disabled by "disableElementsWhatIncludesThisHref. tagName:"${elem.tagName}", id:"${elem.id}", className:"${elem.className}, href:"${elem.getAttribute('href')}"`);
         }
     }
 }
