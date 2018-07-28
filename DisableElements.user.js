@@ -1,18 +1,21 @@
 //document.addEventListener("DOMContentLoaded", function() {
-    console.log("DOMContentLoaded");
-    disableElements();
+    // console.log("DOMContentLoaded");
+    // disableElements();
 //});
 
-// window.onload = function(){
-//     console.log("window.onload");
-//     disableElements();
-// };
+window.onload = function(){
+    console.log("window.onload");
+    disableElements();
+};
 
 function disableElements(){
-    var mode = "hidden";
-    disableElementWhenOverThisZIndex(10, mode);
-    disableThisTagNames(["iFrame"], mode);
-    disableElementsWhatIncludesThisHref(["traffic-url"], mode);
+    // var mode = "hidden";
+    // disableElementWhenOverThisZIndex(10, mode);
+    // disableThisTagNames(["iFrame"], mode);
+    // disableElementsWhatIncludesThisHref(["traffic-url"], mode);
+    disableElementsWhatIncludesThisIDs(["eobm_"],"none");
+    disableThisClasses(["exp-outline"], "none");
+
 }
 
 function disableElementWhenOverThisZIndex(zidx, mode){
@@ -23,6 +26,44 @@ function disableElementWhenOverThisZIndex(zidx, mode){
 
         if(zIndexOfElem > zidx){ //指定z-indexより大きかったら
             disableThisElement(elem, mode, "disableElementWhenOverThisZIndex");
+        }
+    }
+}
+
+function disableThisIDs(idNames, mode){
+    for(var i = 0 ; i < idNames.length ; i++){
+        var elem = document.getElementById(idNames[i]);
+        if(elem != null){ //大文字・小文字の違いを無視して一致した場合
+            disableThisElement(elem, mode, "disableThisIDs");
+        }
+    }
+}
+
+//todo
+function disableElementsWhatIncludesThisIDs(idNames, mode){
+    var tags = document.getElementsByTagName("*");
+    for(i=0;i < tags.length;i++){
+        var elem = tags[i];
+        var idName = elem.id;
+        for(var j = 0 ; j < idNames.length ; j ++){
+            var fnd = idName.indexOf(idNames[j]) != -1; //文字列が存在するかどうか
+            if(fnd){
+                disableThisElement(elem, mode, "disableElementsWhatIncludesThisIDs");
+                break;
+            }
+        }
+        
+    }
+}
+
+function disableThisClasses(classNames, mode){
+    for(var i = 0 ; i < classNames.length ; i++){
+        var elements = document.getElementsByClassName(classNames[i]);
+        console.log(elements);
+        if(elements != null){ //大文字・小文字の違いを無視して一致した場合
+            for(var j = 0; elements.length ; j++){
+                disableThisElement(elements[j], mode, "disableThisClasses");
+            }
         }
     }
 }
@@ -50,19 +91,18 @@ function disableElementsWhatIncludesThisHref(refs, mode){
             for(var j = 0 ; j < refs.length ; j++){
                 fnd = ref.indexOf(refs[j]) != -1; //文字列が存在するかどうか
                 if(fnd){ //存在する場合
+                    disableThisElement(elem, mode, "disableElementsWhatIncludesThisHref");
                     break;
                 }
             }
         }
-        if(fnd){
-            disableThisElement(elem, mode, "disableElementsWhatIncludesThisHref");
-        }
     }
 }
 
-function disableThisElement(elem, mode, whoCalled){    
+function disableThisElement(elem, mode, whoCalled){
+    var succeeded = true;
     switch(mode){
-        case "node":
+        case "none":
             elem.style.display = "none";
             break;
 
@@ -71,7 +111,13 @@ function disableThisElement(elem, mode, whoCalled){
             break;
 
         default:
+            succeeded = false;
             break;
     }
-    console.log(`following element is disabled by "${whoCalled}". tagName:"${elem.tagName}", id:"${elem.id}", className:"${elem.className}, href:"${elem.getAttribute('href')}"`);
+
+    if(succeeded){
+        console.log(`following element is disabled by "${whoCalled}". tagName:"${elem.tagName}", id:"${elem.id}", className:"${elem.className}, href:"${elem.getAttribute('href')}"`);
+    }else{
+        console.warn(`unknown disabling type "${mode}" specified by "${whoCalled}". tagName:"${elem.tagName}", id:"${elem.id}", className:"${elem.className}, href:"${elem.getAttribute('href')}"`);
+    }
 }
