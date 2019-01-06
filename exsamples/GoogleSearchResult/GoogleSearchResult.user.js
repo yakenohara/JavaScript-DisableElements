@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name     GoogleSearchResult
-// @include  https://www.google.com/*
-// @version  1
-// @grant    none
+// @name         GoogleSearchResult
+// @version      0.1
+// @match        https://www.google.com/*
+// @grant        none
 // ==/UserScript==
 
 (function () {
@@ -37,32 +37,32 @@
 
     //判定関数リスト
     var judgers = new function(){
-    
+
         // zIndexが指定値を超えているかどうか
         this.over_zIndex = function(elem, val){
             return(document.defaultView.getComputedStyle(elem,null).zIndex  > val);
         }
-    
+
         // 指定文字列をクラス名を持っているかどうか
         this.eq_class = function(elem, str){
             return (elem.classList.contains(str));
         }
-    
+
         // 指定ID名かどうか
         this.eq_id = function(elem, str){
             return (elem.id == str);
         }
-    
+
         // ID名に指定文字列が含まれるかどうか
         this.inc_id = function(elem, str){
             return (elem.id.indexOf(str) != -1);
         }
-    
+
         // 指定タグ名かどうか
         this.eq_tag = function(elem, str){
             return (elem.tagName.toUpperCase() == str.toUpperCase());
         }
-    
+
         // href属性に指定文字列を含むかどうか
         this.inc_href = function(elem, str){
             var href = elem.getAttribute('href');
@@ -94,15 +94,15 @@
 
     function disableElements(settings){
         var elements = document.getElementsByTagName("*");
-    
+
         //DOM要素網羅ループ
         for(var idxOfElement = 0 ; idxOfElement < elements.length ; idxOfElement++){
-    
+
             var element = elements[idxOfElement];
-    
+
             //設定網羅ループ
             for(var idxOfSetting = 0 ; idxOfSetting < settings.length ; idxOfSetting++){
-    
+
                 var setting = settings[idxOfSetting];
                 var func_judger;
 
@@ -112,10 +112,10 @@
                 }else{ //判定関数リストから指定の場合
                     func_judger = judgers[setting.judger];
                 }
-                
+
 
                 if(Array.isArray(setting.specifier)){ //配列の場合
-                        
+
                     //キーワード網羅ループ
                     for(var idxOfSpecifier = 0 ; idxOfSpecifier < setting.specifier.length ; idxOfSpecifier++){
                         var oneOfSpecifier = setting.specifier[idxOfSpecifier];
@@ -123,7 +123,7 @@
                             disable(element, setting.mode);
                         }
                     }
-                    
+
                 }else{ //配列でない場合
                     if(func_judger(element, setting.specifier)){ //判定結果trueの場合
                         disable(element, setting.mode);
@@ -132,14 +132,14 @@
             }
         }
     }
-    
+
     function disable(elem, mode){
         switch(mode){
             case "none":
             {
                 beforeDesabling(elem, mode);
                 elem.style.display = "none";
-                
+
             }
             break;
 
@@ -156,8 +156,8 @@
                 elem.remove();
             }
             break;
-            
-    
+
+
             default:
             {
                 var errorMessage = "Unknown mode \`" + mode + "\` specified.";
@@ -174,14 +174,14 @@
 
     // DOM要素のPathを配列型で返却する
     function getDomPath(el) {
-        
+
         var stack = [];
-        
+
         while ( el.parentNode !== null ) {
-            
+
             var sibCount = 0;
             var sibIndex = 0;
-            
+
             for ( var i = 0; i < el.parentNode.childNodes.length; i++ ) {
                 var sib = el.parentNode.childNodes[i];
                 if ( sib.nodeName == el.nodeName ) {
@@ -202,7 +202,7 @@
 
             el = el.parentNode;
         }
-        
+
         return stack.slice(1); // removes the html element
     }
 
