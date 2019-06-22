@@ -9,23 +9,9 @@
 
     var objArr1 = [
         {
-            specifier: null,
+            specifier: "apm-Content",
             mode:"remove",
-            judger: function(elem){ //<body><??><??><?? class="st-Modal">の場合にtrueを返す
-                var ret = false;
-                if(elem.classList.contains("st-Modal")){
-                
-                    try {
-                        var maybe_body = elem.parentNode.parentNode.parentNode
-                        if(maybe_body.tagName.toUpperCase() != 'BODY'){
-                            ret = true;
-                        }
-                    } catch (e){
-                        ret = false;
-                    }
-                }
-                return ret;
-            }
+            judger: "eq_class"
         }
     ];
 
