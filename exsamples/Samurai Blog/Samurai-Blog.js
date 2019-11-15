@@ -27,7 +27,12 @@
             specifier: ["footer-banner"], //footer-banner fade-in
             mode:"remove",
             judger: "eq_class",
-        }
+        },
+        {
+            specifier: ["slideshow_wrap"],
+            mode:"none",
+            judger: "eq_id",
+        },
     ];
 
     var timingAndsettings = {
