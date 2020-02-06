@@ -12,6 +12,18 @@
             specifier: ["footFixBar"],
             mode:"hidden",
             judger: "eq_id",
+        },
+        {
+            specifier: ["div-gpt-ad"],
+            mode:"hidden",
+            judger: function(elem, str){
+                return (elem.id.indexOf(str) != (-1)) ;
+            },
+        },
+        {
+            specifier: ["adsbygoogle"],
+            mode:"none",
+            judger: "eq_class",
         }
     ];
 
