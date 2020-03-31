@@ -9,6 +9,11 @@
 
     var objArr1 = [
         {
+            specifier: ["loading"],
+            mode:"remove",
+            judger: "eq_id",
+        },
+        {
             specifier: ["pcMainVisial"],
             mode:"none",
             judger: "eq_id",
