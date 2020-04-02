@@ -9,6 +9,11 @@
 
     var objArr1 = [
         {
+            specifier: ["tl-DummyItemList_content"],
+            mode:"none",
+            judger: "eq_class",
+        },
+        {
             specifier: null,
             mode:"remove",
             judger: function(elem){ //<body><??><??><?? class="st-Modal">の場合にtrueを返す
