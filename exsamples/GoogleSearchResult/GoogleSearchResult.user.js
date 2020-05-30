@@ -11,16 +11,16 @@
         {
             specifier: null,
             mode:"none",
-            judger: function(elem){ //<div data-base-uri="???">の形式の場合にtrueを返す
-                if(elem.tagName.toUpperCase() != 'DIV'){
-                    return false;
-                }else{
-                    var baseUri = elem.getAttribute("data-base-uri");
-                    if(baseUri == '' || baseUri === null){
-                        return false;
-                    }else{
-                        return true;
+            judger: function(elem){ //<div id="eob_??">の形式の場合にtrueを返す
+                var bl_result = false;
+                if(elem.tagName.toUpperCase() == 'DIV'){
+                    if(elem.hasAttribute("id")){
+                        var baseUri = elem.getAttribute("id");
+                        if((baseUri.indexOf('eob_') == 0)){ //<div id="eob_??">の形式の場合)
+                            bl_result = true;
+                        }
                     }
+                    return bl_result;
                 }
             }
         }
