@@ -16,7 +16,7 @@
                 if(elem.tagName.toUpperCase() == 'DIV'){
                     if(elem.hasAttribute("id")){
                         var baseUri = elem.getAttribute("id");
-                        if((baseUri.indexOf('eob_') == 0)){ //<div id="eob_??">の形式の場合)
+                        if((baseUri.indexOf('eob_') == 0)||(baseUri.indexOf('aobm_') == 0)){ //<div id="eob_??">または<div id="aobm_??">の形式の場合)
                             bl_result = true;
                         }
                     }
