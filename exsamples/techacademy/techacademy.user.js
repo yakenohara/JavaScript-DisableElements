@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Samurai-Blog
+// @name         techacademy
 // @version      0.1
-// @match        https://www.sejuku.net/*
+// @match        https://techacademy.jp/*
 // @grant        none
 // ==/UserScript==
 
@@ -9,40 +9,21 @@
 
     var objArr1 = [
         {
-            specifier: ["loading"],
+            specifier: null,
             mode:"remove",
-            judger: "eq_id",
-        },
-        {
-            specifier: ["pcMainVisial"],
-            mode:"none",
-            judger: "eq_id",
-        },
-        {
-            specifier: ["top-nav-menu-wrapper"],
-            mode:"none",
-            judger: "eq_class",
-        },
-        {
-            specifier: ["meta-image"],
-            mode:"none",
-            judger: "eq_class",
-        },
-        {
-            specifier: ["footer-banner"], //footer-banner fade-in
-            mode:"remove",
-            judger: "eq_class",
-        },
-        {
-            specifier: ["slideshow_wrap"],
-            mode:"none",
-            judger: "eq_id",
-        },
-        {
-            specifier: ["fv-banner_random"],
-            mode:"none",
-            judger: "eq_id",
-        },
+            judger: function(elem){ //<div id="eob_??">の形式の場合にtrueを返す
+                var bl_result = false;
+                if(elem.tagName.toUpperCase() == 'DIV'){
+                    if(elem.hasAttribute("id")){
+                        var baseUri = elem.getAttribute("id");
+                        if(baseUri.indexOf('popmake') == 0){ //<div id="popmake??">の場合)
+                            bl_result = true;
+                        }
+                    }
+                    return bl_result;
+                }
+            }
+        }
     ];
 
     var timingAndsettings = {
