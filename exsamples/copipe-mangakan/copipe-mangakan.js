@@ -12,10 +12,15 @@
             specifier: null,
             mode:"none",
             judger: function(elem){ //<div id="eob_??">の形式の場合にtrueを返す
-                var beforeStyle = getComputedStyle(elem, '::before');
-                if (beforeStyle.animationName != 'none'){ // animation が指定されていた場合
-                    // console.log(getXPath(elem));
-                    // elem.setAttribute("style", "animation: none;");
+                var bl_result = false;
+                if(elem.tagName.toUpperCase() == 'DIV'){
+                    if(elem.hasAttribute("id")){
+                        var baseUri = elem.getAttribute("id");
+                        if((baseUri.indexOf('eob_') == 0)||(baseUri.indexOf('aobm_') == 0)){ //<div id="eob_??">または<div id="aobm_??">の形式の場合)
+                            bl_result = true;
+                        }
+                    }
+                    return bl_result;
                 }
             }
         }
@@ -83,6 +88,9 @@
         window.addEventListener("load", function(){
             console.log("Disabling Start");
             // disableElements(timingAndsettings.onload);
+
+            // Slick 無効化
+            jQuery('.slick-slider').slick('slickPause');
 
             //shine を無効化
             const style = document.createElement('style');
