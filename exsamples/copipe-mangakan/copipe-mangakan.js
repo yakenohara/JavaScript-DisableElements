@@ -29,10 +29,10 @@
     var timingAndsettings = {
 
         // Dom Content Loaded のタイミングで発火する
-        // ready: objArr1,
+        ready: objArr1,
 
         // window.onloadのタイミングで発火する
-        onload: objArr1,
+        // onload: objArr1,
     };
 
     //判定関数リスト
@@ -77,8 +77,17 @@
     // イベント登録 - DOMContentLoaded
     if(typeof timingAndsettings.ready == 'object'){
         // document.addEventListener("DOMContentLoaded", function() { // <- note:greasemonkeyでは不要
-            console.log("Disabling Start");
+            console.log("Disabling Start - DOMContentLoaded");
             disableElements(timingAndsettings.ready);
+
+            // Slick 無効化
+            jQuery('.slick-slider').slick('slickPause');
+
+            //shine を無効化
+            const style = document.createElement('style');
+            style.textContent = `.btn-shine::before { content: none !important; }`;
+            document.head.appendChild(style);
+
             console.log("Disabling End");
         // });
     }
@@ -86,7 +95,7 @@
     // // イベント登録 - window.onload
     if(typeof timingAndsettings.onload == 'object'){
         window.addEventListener("load", function(){
-            console.log("Disabling Start");
+            console.log("Disabling Start - window.onload");
             // disableElements(timingAndsettings.onload);
 
             // Slick 無効化
