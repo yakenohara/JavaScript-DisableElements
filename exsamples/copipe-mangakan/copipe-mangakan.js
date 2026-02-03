@@ -81,7 +81,16 @@
             disableElements(timingAndsettings.ready);
 
             // Slick 無効化
-            jQuery('.slick-slider').slick('slickPause');
+            const observer = new MutationObserver(() => {
+            if (window.jQuery) {
+                console.log("jQuery detected");
+                jQuery('.slick-slider').slick('slickPause');
+            }
+            });
+            observer.observe(document.documentElement, {
+                childList: true,
+                subtree: true
+            });
 
             //shine を無効化
             const style = document.createElement('style');
